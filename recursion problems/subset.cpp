@@ -12,6 +12,8 @@
 
 // Input: nums = [0]
 // Output: [[],[0]]
+//problem: leetcode
+
 class Solution {
 public:
     void solve(vector<int> nums,vector<int> output,vector<vector<int>> &ans,int index){
