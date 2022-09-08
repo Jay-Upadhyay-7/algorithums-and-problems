@@ -1,0 +1,43 @@
+void solve(Node* root,priority_queue<int> &heap,int k){
+    if(root==NULL){
+        return;
+    }
+    heap.push(root->data);
+    if(heap.size()>k){
+        heap.pop();
+    }
+    solve(root->left,heap,k);
+    solve(root->right,heap,k);
+}
+void solve1(Node* root,int x,int &sum){
+    if(root==NULL){
+        return ;
+    }
+    if(root->data<=x){
+    sum=sum+root->data;}
+    solve1(root->left,x,sum);
+    solve1(root->right,x,sum);
+}
+
+//using concept of inorder as it is bst
+void solve2(Node* root,int &sum,int &k){
+    if(root==NULL){
+        return ;
+    }
+    
+    solve2(root->left,sum,k);
+    if(k>0){
+    sum=sum+root->data;
+    k--;}
+    solve2(root->right,sum,k);
+}
+int sum(Node* root, int k) 
+{ 
+    // priority_queue<int> heap;
+    // solve(root,heap,k);
+    // int x=heap.top();
+    int sum=0;
+    // solve1(root,x,sum);
+    solve2(root,sum,k);
+    return sum;
+} 
