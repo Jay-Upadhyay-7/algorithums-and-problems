@@ -1,0 +1,20 @@
+int intersectPoint(Node* head1, Node* head2){
+    Node * head3= head1;
+    Node * head4= head2;
+      
+    while(head3!=head4){
+        if(head3){
+            head3=head3->next;
+        }
+        else{
+            head3=head2;
+        }
+        if(head4){
+            head4=head4->next;
+        }
+        else{
+            head4=head1;
+        }
+    }
+    return head4->data;
+}
