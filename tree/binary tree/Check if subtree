@@ -1,0 +1,29 @@
+{
+  public:
+  bool ans=false;
+    //Function to check if S is a subtree of tree T.
+    void solve2(Node * T,Node * S){
+        if(T!=NULL){
+          solve2(T->left,S);
+          bool x=solve(T,S);
+          if(x){
+              ans=x;
+          }
+          solve2(T->right,S);
+        }
+    }
+    
+    bool solve(Node * T,Node * S){
+        if(T==NULL&&S==NULL){
+            return true;
+        }
+        if(T==NULL||S==NULL){
+            return false;
+        }
+        return ((T->data==S->data)&&solve(T->left,S->left)&&solve(T->right,S->right));
+    }
+    bool isSubTree(Node* T, Node* S) 
+    {
+        solve2(T,S);
+        return ans;
+    }
