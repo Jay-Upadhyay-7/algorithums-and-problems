@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int solve(vector<int> nums,vector<int> &dp,int i,int n){
+        if(i>n){
+            return 0;
+        }
+        if(i==n){
+            return nums[i];
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+ 
+        dp[i]=max((nums[i]+solve(nums,dp,i+2,n)),0+solve(nums,dp,i+1,n));
+        
+        return  dp[i];
+    }
+    int rob(vector<int>& nums) {
+        if(nums.size()==1){
+            return nums[0];
+        }
+        vector<int> dp(nums.size(),-1);
+        vector<int> dp2(nums.size(),-1);
+        return max(solve(nums,dp,1,nums.size()-1),solve(nums,dp2,0,nums.size()-2));
+    }
+};
