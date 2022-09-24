@@ -1,0 +1,48 @@
+918. Maximum Sum Circular Subarray
+Medium
+
+Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
+
+A circular array means the end of the array connects to the beginning of the array. Formally, the next element of nums[i] is nums[(i + 1) % n]
+and the previous element of nums[i] is nums[(i - 1 + n) % n].
+
+A subarray may only include each element of the fixed buffer nums at most once. Formally, for a subarray nums[i], nums[i + 1], ..., nums[j], 
+there does not exist i <= k1, k2 <= j with k1 % n == k2 % n.
+
+//logic 
+first find normal max sum of subarray;
+now if it is negative then it will be answer at it means there are no positive values;
+second step :- now find total sum and invert array element
+third step- now find max sum of subarray and subtract sum from it;
+now find max of normal max and ans of third step. that is answer.
+
+it will give answer as max sum will either exist in centre of array or at ends.
+========================================================================================================================================================
+
+class Solution {
+public:
+    int solve(vector<int>& nums) {
+        int ans = nums[0];
+        int prev=nums[0];
+        for(int i=1;i<nums.size();i++){
+            prev=max(nums[i],prev+nums[i]);
+            ans=max(prev,ans);
+
+        }
+        return ans;
+    }
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int first=solve(nums);
+        if(first<0){
+            return first;
+        }
+        int sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum=sum+nums[i];
+            nums[i]=nums[i]*-1;
+        }
+        int secondCircu=solve(nums);
+        secondCircu=sum+secondCircu;
+        return max(first,secondCircu);
+    }
+};
