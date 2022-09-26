@@ -1,0 +1,23 @@
+Node* partition(int in[],int pre[],int n,int start, int end, int &preind,unordered_map<int,int>&m){
+        if(preind==n)  return NULL;
+        if(start>end)   return NULL;
+        int k=pre[preind];
+        preind++;
+        Node* newNode=new Node(k);
+        newNode->left=partition(in,pre,n,start,m[k]-1,preind,m);
+        newNode->right=partition(in,pre,n,m[k]+1,end,preind,m);
+        
+ }
+
+class Solution{
+    public:
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        unordered_map<int,int> m;
+        for(int i=0;i<n;i++){
+            m[in[i]]=i;
+        }
+        int prind=0;
+        return partition(in,pre,n,0,n-1,prind,m);
+    }
+};
