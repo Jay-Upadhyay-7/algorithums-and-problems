@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool check(TreeNode * root){
+        if(root==nullptr){
+            return true;
+        }
+        bool lastnode =false;
+        queue<TreeNode *> q;
+        q.push(root);
+        while(!q.empty()){
+            TreeNode * current=q.front();
+            q.pop();
+            if(lastnode==true&&(current->left||current->right)){
+                    return false;
+            }
+            else if(current->left==nullptr&&current->right==nullptr){
+                lastnode=true;
+                continue;
+            }
+            else if(current->right&&!current->left){
+                return false;
+            }
+            else if(current->left&&!current->right){
+                lastnode=true;
+                q.push(current->left);
+            }
+            else if(current->left&&current->right){
+            q.push(current->left);
+            q.push(current->right);}
+            
+        }
+        return true;
+    }
+    bool isCompleteTree(TreeNode* root) {
+        return check(root);
+    }
+};
