@@ -1,0 +1,44 @@
+// used for finding min distance path in undirected weighted graph with +ve values
+//what is dijistras algo and how it works :
+// Dijkstra algorithm is a single-source shortest path algorithm. Here, single-source means that only one source is given, and we have to find the shortest path from the source to all the nodes.
+// algo
+// step 1: at first we create a a array to store distance of eacch node and initialise all with infinity , first node distance =0(source)
+// step 2: we create a priority queue or a disjoint set and push pair {0,0} in it (distance from source , node no)
+// then we pop queue untill empty and traverse to all its neighbour node , if parent weight + its weight < dist[node] weight we replace the value and push {updated weight,node} to queue. 
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int edges,vertices;
+  cin>>vertices;
+  cin>>edges;
+  unordered_map<int,vector<pair<int,int> > > g(vertices);
+  for(int i=0;i<edges;i++){
+    int u,v,w;
+    cin>>u>>v>>w;
+    g[u].push_back({v,w});
+    g[v].push_back({u,w});
+  }
+  vector<int> dist(vertices,INT_MAX);
+  dist[0]=0;
+  // you can also use disjoint set
+  priority_queue<pair<int,int>,vector<pair<int,int> > , greater<pair<int,int> > > pq;
+  pq.push({0,0});
+  while(!pq.empty()){
+    pair<int,int> temp= pq.top();
+    pq.pop();
+    for(int i=0;i<g[temp.second].size();i++){
+           pair<int,int> p=g[temp.second][i];
+           if(temp.first+p.second < dist[p.first]){
+            dist[p.first]=temp.first+p.second;
+            pq.push({temp.first+p.second,p.first});
+           }
+    }
+  }
+  cout<<"minimum ditsance to ease vertices from sourcxe :" ;
+  for(int i=0;i<vertices;i++){
+    cout<<dist[i]<<" ";
+}
+}
