@@ -1,0 +1,58 @@
+There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
+
+A critical connection is a connection that, if removed, will make some servers unable to reach some other server.
+
+Return all critical connections in the network in any order.
+
+***********
+In graph theory, a bridge, isthmus, cut-edge, or cut arc is an edge of a graph whose deletion increases the graph's number of connected components.
+Equivalently, an edge is a bridge if and only if it is not contained in any cycle.
+
+***********************************************************************************************************************************************
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void bridge( unordered_map<int,vector<int>> &g,vector<int> &dis,vector<int> &low,int node,int parent,vector<int> &vis,int count){
+
+        vis[node]=true;
+        for(auto i: g[node]){
+            if(i==parent){
+                continue;
+            }
+            if(!vis[i]){
+                dis[i]=low[i]=count++;
+                bridge(g,dis,low,i,node,vis,count);
+                low[node]=min(low[node],low[i]);
+                if(low[i]>dis[node]){
+                    //bridge h
+                    vector<int> temp;
+                    temp.push_back(node);
+                    temp.push_back(i);
+                    ans.push_back(temp);
+                }
+            }
+            else{
+                low[node]=min(low[node],low[i]);
+            }
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& c) {
+        unordered_map<int,vector<int>> g(n);
+        for(auto i : c){
+          g[i[0]].push_back(i[1]);
+          g[i[1]].push_back(i[0]);
+        }
+        vector<int> vis(n,0);
+        vector<int> dis(n,-1);
+        vector<int> low(n,-1);
+        dis[0]=0;
+        low[0]=0;
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                bridge(g,dis,low,i,-1,vis,1);
+            }
+        }
+        return ans;
+    }
+};
