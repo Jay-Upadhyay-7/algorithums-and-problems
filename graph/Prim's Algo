@@ -1,0 +1,52 @@
+/* Used to find minimum spanning tree , a minimum spanning tree consist of v vertices and v-1 edges and no cycle , such that if sum of the distance/weight of all edges 
+is minimum . By using this we can find minimum distace of a vertex from source and a MST*/
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+  int edges,vertices;
+  cin>>vertices;
+  cin>>edges;
+  unordered_map<int,vector<pair<int,int> > > g(vertices);
+  for(int i=0;i<edges;i++){
+    int u,v,w;
+    cin>>u>>v>>w;
+    g[u].push_back({v,w});
+    g[v].push_back({u,w});
+  }
+  vector<int> vis(vertices,0);
+  vector<int> parent(vertices,-1);
+  vector<int> dist(vertices,INT_MAX);
+  while(true){
+  dist[0]=0;
+  int min=INT_MAX;
+  int indi=-1;
+  for(int i=0;i<vertices;i++){
+    if(dist[i]<min&&!vis[i]){
+      min=dist[i];
+      indi=i;
+    }
+  }
+  if (indi==-1) break;
+  vis[indi]=1;
+  for(auto i : g[indi]){
+    int vv=i.first;
+    int wt=i.second;
+    if(dist[indi]+wt<dist[vv]){
+      dist[vv]=dist[indi]+wt;
+      parent[vv]=indi;
+    }
+  }
+  }
+
+// minimum possible distance to reach each vertices
+  for(int i=0;i<vertices;i++){
+    cout<<endl<<"minimum distance of vertex "<<i<<" from source is : "<<dist[i]<<" ";
+  }
+//parent of each vertices (final) with no loops
+  for(int i=0;i<vertices;i++){
+    cout<<endl<<"parent of vertex "<<i<<" is : "<<parent[i];
+  }
+return 0;
+
+}
